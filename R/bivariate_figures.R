@@ -4,7 +4,7 @@ library(ggeffects)
 library(patchwork)
 
 #bivariate figure dbh
-moddbh <- glmer(cbind(damage_d,undamaged ) ~ log10(dbh_cm) + (1|site),
+moddbh <- glmer(cbind(damage_d_half,undamaged_half ) ~ log10(dbh_cm) + (1|site),
                 data = dat, family=binomial(link="logit"),
                 weights = sampled_stem,
                 control=glmerControl(optimizer="bobyqa",
@@ -14,7 +14,7 @@ predicted <- ggpredict(moddbh,terms = c("dbh_cm [all]"))
 dat %>% 
   #filter(trt == 'T') %>% 
   group_by(site, dbh_cm) %>% 
-  summarise(damage_m =mean(damage_d)/100) -> d5
+  summarise(damage_m =mean(damage_d_half)/100) -> d5
 
 ggplot(d5, aes(x=dbh_cm, y =damage_m* 100)) + 
   geom_point() + 
@@ -27,7 +27,7 @@ ggplot(d5, aes(x=dbh_cm, y =damage_m* 100)) +
   theme_bw()-> dbh
 
 #bivariate wood density
-modwd <- glmer(cbind(damage_d,undamaged ) ~ wood_density + (1|site),
+modwd <- glmer(cbind(damage_d_half,undamaged_half ) ~ wood_density + (1|site),
                data = dat, family=binomial(link="logit"),
                weights = sampled_stem,
                control=glmerControl(optimizer="bobyqa",
@@ -35,7 +35,7 @@ modwd <- glmer(cbind(damage_d,undamaged ) ~ wood_density + (1|site),
 predicted <- ggpredict(modwd,terms = c("wood_density [all]"))
 dat %>% 
   group_by(site, wood_density) %>% 
-  summarise(damage_m =mean(damage_d)/100) -> d5
+  summarise(damage_m =mean(damage_d_half)/100) -> d5
 
 ggplot(d5, aes(x=wood_density, y =damage_m*100)) + 
   geom_point() + 
@@ -49,7 +49,7 @@ ggplot(d5, aes(x=wood_density, y =damage_m*100)) +
   theme_bw()-> wd
 
 #Precipitation
-modpre <- glmer(cbind(damage_d,undamaged ) ~ log10(prec_90m) + (1|site),
+modpre <- glmer(cbind(damage_d_half,undamaged_half ) ~ log10(prec_90m) + (1|site),
                 data = dat, family=binomial(link="logit"),
                 weights = sampled_stem,
                 control=glmerControl(optimizer="bobyqa",
@@ -60,7 +60,7 @@ prev_val <- seq(812, 4458, 10)
 predicted <- ggpredict(modpre,terms = c("prec_90m [prev_val]"))
 dat %>% 
   group_by(site, species_matched) %>% 
-  summarise(prec_90m = prec_90m, damage_m =mean(damage_d)/100) -> d5
+  summarise(prec_90m = prec_90m, damage_m =mean(damage_d_half)/100) -> d5
 
 ggplot(d5, aes(x=prec_90m, y =damage_m)) + 
   geom_point() + 
@@ -73,7 +73,7 @@ ggplot(d5, aes(x=prec_90m, y =damage_m)) +
   theme_bw()-> pre
 
 #termite damage
-modtermite <- glmer(cbind(damage_d,undamaged ) ~ damage + (1|site),
+modtermite <- glmer(cbind(damage_d_half,undamaged_half ) ~ damage + (1|site),
                     data = dat, family=binomial(link="logit"),
                     weights = sampled_stem,
                     control=glmerControl(optimizer="bobyqa",
@@ -82,7 +82,7 @@ damge_range <- seq(1.1, 90, 2)
 predicted <- ggpredict(modtermite,terms = c("damage [damge_range]"))
 dat %>% 
   group_by(site, species_matched) %>% 
-  summarise(damage = damage, damage_m =mean(damage_d)/100) -> d5
+  summarise(damage = damage, damage_m =mean(damage_d_half)/100) -> d5
 
 ggplot(d5, aes(x=damage, y =damage_m)) + 
   geom_point() + 

@@ -5,7 +5,7 @@ library(colorspace)
 dat <- read_csv("data/stem_damage.csv")
 
 dat %>%
-  dplyr::select(Site,site, aridity,prec_90m,damage_d_half, damage_d_area,dbh_cm, wood_density) %>%
+  dplyr::select(Site,site, prec_90m,damage_d_half, damage_d_area,dbh_cm, wood_density) %>%
   pivot_longer(damage_d_half:wood_density) %>%
   mutate(site = as.factor(site))-> site_level
 

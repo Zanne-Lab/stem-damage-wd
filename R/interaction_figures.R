@@ -13,7 +13,7 @@ high <- '#A50026'
 
 
 #Wood densityt and precipitation
-mod1 <- glmer(cbind(damage_d,undamaged ) ~ log10(prec_90m)*wood_density + (1|site),
+mod1 <- glmer(cbind(damage_d_half,undamaged_half ) ~ log10(prec_90m)*wood_density + (1|site),
               data = dat, family=binomial(link="logit"),
               weights = sampled_stem,
               control=glmerControl(optimizer="bobyqa",
@@ -24,11 +24,11 @@ predicted <- ggpredict(mod1,terms = c("prec_90m", "wood_density [v]"))
 
 dat %>% 
   group_by(site, wood_density) %>% 
-  summarise(prec = prec_90m[1], damage_m =mean(damage_d)/100) -> d5
+  summarise(prec = prec_90m[1], damage_m =mean(damage_d_half)/100) -> d5
 
 
 ggplot(d5, aes(prec, damage_m*100, color=wood_density)) + 
-  geom_jitter2() + 
+  geom_jitter() + 
   scale_colour_gradient2(low=low, mid= mid, midpoint= 0.661,high= high, name='Wood\ndensity') +
   geom_line(aes(x=x, y=predicted*100), data=filter(predicted, group=='0.38'), 
             inherit.aes=FALSE, colour= low) + 
@@ -48,7 +48,7 @@ ggplot(d5, aes(prec, damage_m*100, color=wood_density)) +
 
 
 #Wood density and termite damage
-mod2 <- glmer(cbind(damage_d,undamaged ) ~ damage*wood_density + (1|site),
+mod2 <- glmer(cbind(damage_d_half,undamaged_half ) ~ damage*wood_density + (1|site),
               data = dat, family=binomial(link="logit"),
               weights = sampled_stem,
               control=glmerControl(optimizer="bobyqa",
@@ -61,10 +61,10 @@ predicted_tm <- ggpredict(mod2,terms = c("damage", "wood_density [v]"),)
 dat %>% 
   #filter(trt == 'T') %>% 
   group_by(site, wood_density) %>% 
-  summarise(termite_damage = damage, damage_m =mean(damage_d)/100) -> d5_tm
+  summarise(termite_damage = damage, damage_m =mean(damage_d_half)/100) -> d5_tm
 
 ggplot(d5_tm, aes(termite_damage, damage_m*100, color=wood_density)) + 
-  geom_jitter2() + 
+  geom_jitter() + 
   scale_colour_gradient2(low=low, mid= mid, midpoint= 0.661,high=high, name='Wood\ndensity') +
   geom_line(aes(x=x, y=predicted*100), data=filter(predicted_tm, group=='0.38'), 
             inherit.aes=FALSE, colour=low) + 
