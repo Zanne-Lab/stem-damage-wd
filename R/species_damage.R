@@ -9,14 +9,14 @@ split_genus <- function(str) {
   str_split <- strsplit(str, "[_ ]+")
   vcapply(str_split, "[[", 1L)
 }
-d4 <- read_csv("data/stem_damage.csv")
-d4 %>%
+data <- read_csv("data/stem_damage.csv")
+data %>%
   group_by(site, species_matched) %>% 
   mutate(species_matched = gsub(pattern = " ",replacement = "_",x = species_matched),
          species_matched = ifelse(species_matched =="Pleioluma_macrocarpa", "Beccariella_macrocarpa", species_matched)) %>%
   filter(species_matched != "Sapindaceae") %>%
   add_count() %>%
-  summarise(damage_m =mean(damage_d)/100, n_spp = mean(nn), wd = mean(wood_density,na.rm = TRUE)) %>%
+  summarise(damage_m =mean(damage_d_half)/100, n_spp = mean(n), wd = mean(wood_density,na.rm = TRUE)) %>%
   mutate(genus = split_genus(species_matched))-> mm
 mm$species_matched[mm$species_matched=="Eucalyptus_resinifera"]<-"Eucalyptus_resinifera_subsp._resinifera"
 mm$species_matched[mm$species_matched=="Syzygium"]<-"Syzygium_sp."

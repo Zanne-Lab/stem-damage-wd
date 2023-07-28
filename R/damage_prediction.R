@@ -28,7 +28,7 @@ predicted <- ggpredict(mod1,terms = c("prec_90m", "wood_density [all]"))
 ilink <-family(mod1)$linkinv
 
 biomass <- read_csv("data/agb.csv") %>%
-  dplyr::select(site,agb,prec_90m, wood_density, dbh_cm)
+  dplyr::select(site,tree,agb,prec_90m, wood_density, dbh_cm)
 
 
 l<-setNames(as_tibble(predict(mod1,biomass, re.form=NA,)),
