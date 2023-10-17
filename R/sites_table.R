@@ -3,9 +3,10 @@ library(elevatr)
 library(sf)
 
 read_csv("data/stem_damage.csv") %>%
-  select(Site, longitude, latitude ,species_matched) %>%
-  distinct(Site,latitude, longitude,species_matched) %>%
-  count(Site,latitude, longitude,name = "SpeciesNumber") ->p
+  select(Site, longitude, latitude ,prec_90m,species_matched) %>%
+  distinct(Site,latitude, longitude,prec_90m, species_matched) %>%
+  count(Site,latitude, longitude, prec_90m,name = "SpeciesNumber") %>%
+  arrange(desc(prec_90m))->p
 
 DT <- st_as_sf(x = p, coords = c("longitude","latitude"), remove = FALSE)
 DT <- st_set_crs(DT, value = "WGS84")
