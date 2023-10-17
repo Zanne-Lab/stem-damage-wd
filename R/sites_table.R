@@ -12,5 +12,8 @@ DT <- st_as_sf(x = p, coords = c("longitude","latitude"), remove = FALSE)
 DT <- st_set_crs(DT, value = "WGS84")
 DTT <- get_elev_point(DT, src = "aws")
 
-DT$p2 = st_as_sf(as.data.frame(DT), coords = c("long2","lat2"))
+as_tibble(DTT) %>%
+  select(-geometry)-> out
+
+write_csv(out, "output/site_info.csv")
 
