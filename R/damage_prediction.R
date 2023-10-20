@@ -9,6 +9,8 @@ library(baad.data)
 library(khroma)
 library(ggrepel)
 library(patchwork)
+library(ggpubr)
+
 dat <-read_csv("data/stem_damage.csv")
 
 dat %>%
@@ -93,15 +95,21 @@ sum_biomass %>%
 #50f is constant biomass loss across the stem
 agb$set <- fct_relevel(agb$set,"50i", "50f","50m","50d")
 
-ggplot(agb,aes(fill = set,x = site,y = AGB_d_))+
+
+ggplot()+
+  geom_bar(data =filter(agb,set %in% c("50f", "50m") ), aes(x = site, y= AGB_d_, fill= set),stat = "identity",position="identity", color ="black")+
   scale_fill_manual(name = "Biomass estimate",
-                    labels=c("50% damage\nincrease", "Constant\ndamage",
-                             "No damage", "50% damage\ndecrease"),
-                    values = c("#A50026", "#F99858", "#EAECCC", "#364B9A"))+
-  geom_bar(position = "dodge",stat = "identity")+
+                    labels=c("50m" = "No damage",
+                             "50f"="Constant\ndamage"),
+                    values = c("50m" = "white", "50f"="#E2E2E2"))+
+  geom_errorbar(aes(x = factor(site), ymin = AGB_d_50i,ymax = AGB_d_50i, y = AGB_d_50f), data= sum_biomass, colour = "black", linetype = "longdash")+
+  geom_errorbar(aes(x = factor(site), ymin = AGB_d_50d,ymax = AGB_d_50d, y = AGB_d_50f), data= sum_biomass, colour = "black", linetype = "longdash")+
+  #scale_colour_manual(name = "", values = "black", labels = "+/- 50% damage")
   ylim(c(0,450))+
   ylab("Above ground biomass (Mg/ha)")+
-  theme_classic()-> agb_plot
+  theme_classic()+
+  theme()-> agb_gray
+
 ggsave("agb_half.jpeg")
 ggsave("agb_half.pdf")
 
@@ -159,22 +167,30 @@ sum_stem_mass%>%
 sgb$set <- fct_relevel(sgb$set,"50i", "50f","50m","50d")
 
 
-ggplot(sgb,aes(fill = set,x = site,y = SGB_d_))+
+ggplot()+
+  geom_bar(data =filter(sgb,set %in% c("50f", "50m") ), aes(x = site, y= SGB_d_, fill= set),stat = "identity",position="identity", color ="black")+
   scale_fill_manual(name = "Biomass estimate",
-                    labels=c("50% damage\nincrease", "Constant\ndamage",
-                             "No damage", "50% damage\ndecrease"),
-                    values = c("#A50026", "#F99858", "#EAECCC", "#364B9A"))+
-  geom_bar(position = "dodge",stat = "identity")+
+                    labels=c("50m" = "No damage",
+                             "50f"="Constant\ndamage"),
+                    values = c("50m" = "white", "50f"="#E2E2E2"))+
+  geom_errorbar(aes(x = factor(site), ymin = SGB_d_50i,ymax = SGB_d_50i, y = SGB_d_50f), data= sum_stem_mass, colour = "black", linetype = "longdash")+
+  geom_errorbar(aes(x = factor(site), ymin = SGB_d_50d,ymax = SGB_d_50d, y = SGB_d_50f), data= sum_stem_mass, colour = "black", linetype = "longdash")+
+  #scale_colour_manual(name = "", values = "black", labels = "+/- 50% damage")
   ylim(c(0,450))+
   ylab("Stem biomass (Mg/ha)")+
-  theme_classic()->sgb_plot
-
-
-ggplot(filter(agb, !is.na(pct_dmg_)),aes(fill = set,x = site,y = pct_dmg_))+
-  scale_fill_manual(name = "AGB estimate",values = c("#A50026", "#F99858", "#364B9A"))+
-  geom_col(position = "dodge")+
+  theme_classic()+
+  theme()-> sgb_gray
+#"#474747" "#8A8A8A" "#C2C2C2" "#E2E2E2"
+ggplot()+
+  geom_bar(data =filter(agb, !is.na(pct_dmg_) & set == "50m"),
+           aes(x = site, y= pct_dmg_),stat = "identity",position="identity", fill = "#E2E2E2", color ="black")+
+    geom_errorbar(aes(x = factor(site), ymin = pct_dmg_50i,ymax = pct_dmg_50i,
+                    y = pct_dmg_50i), data= sum_biomass, colour = "black", linetype = "longdash")+
+  geom_errorbar(aes(x = factor(site), ymin = pct_dmg_50d,ymax = pct_dmg_50d, 
+                    y = pct_dmg_50d), data= sum_biomass, colour = "black", linetype = "longdash")+
   ylab("Above ground biomass damage (%)")+
-  theme_classic() -> percent_plot
+  theme_classic()+
+   theme(legend.position = "none")-> percent_plot
 
 t.test(sum_stem_mass$SGB_d_50m, sum_stem_mass$SGB_d_50f, paired = TRUE, alternative = "greater")
 t.test(sum_stem_mass$SGB_d_50m, sum_stem_mass$SGB_d_50d, paired = TRUE, alternative = "greater")
@@ -183,7 +199,7 @@ p <- c(0.01078, 0.01078, 0.01078)
 #adjust P values because of multiple testing
 p.adjust(p, method = p.adjust.methods, n = length(p))
 
-percent_plot+agb_plot+sgb_plot+ patchwork::plot_layout(nrow = 1, guides = "collect")+plot_annotation(tag_levels = "A")
+percent_plot+agb_gray+sgb_gray+ patchwork::plot_layout(nrow = 1, guides = "collect")+plot_annotation(tag_levels = "A")
 ggsave("biomass_prediction.pdf",width = 10)
 
 
