@@ -35,7 +35,12 @@ site <- ggmap(fnqmap)+
   theme(legend.position = c(0.88, 0.15),
 legend.background = element_rect(fill = "white", color = "black"))
 
-map_fig <- site + inset_element(oz, 0,0.6,0.49,1, clip = TRUE)
+map_fig <- site + inset_element(oz, 0,0.6,0.49,1, clip = TRUE) &
+  theme(axis.title = element_text(size = 14),
+        axis.text = element_text(size = 14), 
+        legend.text = element_text(size = 15),
+        legend.title = element_text(size = 14))
 
-ggsave(filename = "output/map_figure.png", plot = map_fig)
+#ggsave(filename = "output/figure_1.png", plot = map_fig)
+ggsave(filename = "output/figure_1.pdf", plot = map_fig, dpi = 600, width = 10, height = 10)
 

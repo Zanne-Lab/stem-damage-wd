@@ -10,6 +10,7 @@ library(khroma)
 library(ggrepel)
 library(patchwork)
 library(ggpubr)
+library(jpeg)
 
 dat <-read_csv("data/stem_damage.csv")
 
@@ -199,7 +200,22 @@ p <- c(0.01078, 0.01078, 0.01078)
 #adjust P values because of multiple testing
 p.adjust(p, method = p.adjust.methods, n = length(p))
 
-percent_plot+agb_gray+sgb_gray+ patchwork::plot_layout(nrow = 1, guides = "collect")+plot_annotation(tag_levels = "A")
-ggsave("biomass_prediction.pdf",width = 10)
+agb_img <- readJPEG("data/agb.jpeg", native = TRUE) 
+sgb_img <- readJPEG("data/sgb.jpeg", native = TRUE)
+
+sgb_p <- sgb_gray + inset_element(sgb_img, left = 0.01, bottom = 0.7, right = 0.4, top = 1, ignore_tag = TRUE)
+percent_plot + agb_gray + inset_element(agb_img, left = 0.01, bottom = 0.7, right = 0.4, top = 1, ignore_tag = TRUE) +
+  sgb_gray + inset_element(sgb_img,
+    left = 0.01, bottom = 0.7,
+    right = 0.4, top = 1, ignore_tag = TRUE) +
+  patchwork::plot_layout(nrow = 1, guides = "collect") + 
+  plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") &
+  theme(axis.title.x = element_blank(),axis.title = element_text(size = 14),
+        axis.text = element_text(size = 14), 
+        legend.text = element_text(size = 15),
+        legend.title = element_text(size = 14))
+#ggsave("output/biomass_prediction.png",width = 14)
+
+ggsave("output/figure_5.pdf",width = 14, dpi = 600)
 
 
