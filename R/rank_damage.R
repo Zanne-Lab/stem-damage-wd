@@ -18,11 +18,11 @@ tax_spp %>%
 dat <- read_csv("data/stem_damage.csv")
 dat %>%
   dplyr::group_by(site, species_matched, ) %>%
-  mutate(n_spp = n) %>%
+  mutate(n_spp = n()) %>%
   dplyr::group_by(site, species_matched) %>%
   filter(n_spp >2) %>%
-  dplyr::summarise(mean_damage = round(mean(damage_d),2), 
-                   sd_damage = round(sd(damage_d),2)) %>%
+  dplyr::summarise(mean_damage = round(mean(damage_d_half),3), 
+                   sd_damage = round(sd(damage_d_half),3)) %>%
   ungroup() %>%
   mutate(rank_damage = row_number(-mean_damage), 
          genus = split_genus(species_matched)) %>%
