@@ -1,0 +1,73 @@
+{
+    "creators": [
+        {
+            "orcid": "0000-0002-7083-0005",
+            "affiliation": "CSIRO Health and Biosecurity, GPO Box 2583, Brisbane, QLD 4001, Australia",
+            "name": "Flores-Moreno, Habacuc"
+        },
+        {
+            "orcid": "0000-0001-8515-7629",
+            "affiliation": "Biology Department, University of Miami, Miami, FL 33124-0421, United States",
+            "name": "Yatsko, Abbey R."
+        },
+        {
+            "orcid": "0000-0003-3931-5766",
+            "affiliation": "College of Science and Engineering, James Cook University, Cairns, QLD, Australia",
+            "name": "Cheesman, Alexander W."
+        },
+        {
+            "orcid": "0000-0003-4629-7842",
+            "affiliation": "Department of Ecology and Evolutionary Biology, University of California Irvine, Irvine, California, USA; Department of Earth System Science, University of California, Irvine, California, USA",
+          "name": "Allison, Steven D."
+        },
+        {
+            "orcid": "0000-0001-9754-8184",
+            "affiliation": "College of Science and Engineering, James Cook University, Cairns, QLD 4878, Australia",
+            "name": "Cernusak, Lucas A."
+        },
+        {
+            "orcid": "0000-0003-1899-5328",
+            "affiliation": "Department of Biological Sciences, George Washington University, Washington, DC 20007, United States",
+            "name": "Cheney, Rose"
+        },
+        {
+           "orcid": "0000-0002-5634-9207",
+            "affiliation": "Department of Biological Sciences, George Washington University, Washington, DC 20007, United States",
+            "name": "Clement, Rebecca A."
+        },
+        {
+           "orcid": "0000-0001-8673-8193",
+            "affiliation": "Australian Tropical Herbarium, James Cook University, Cairns, QueenslandQLD 4878, Australia",
+            "name": "Cooper, Wendy"
+        },
+        {
+           "orcid": "0000-0002-1420-7518",
+            "affiliation": "Life Sciences Department, The Natural History Museum, London SW7 5HD, United Kingdom",
+            "name": "Eggleton, Paul"
+        },
+        {
+           
+            "affiliation": "Australian Wildlife Conservancy, Malanda, QueenslandQLD, 4885, Australia",
+            "name": "Jensen, Rigel"
+        },
+        {
+           "orcid": "0000-0003-4686-8852",
+            "affiliation": "Department of Biological Sciences, George Washington University, Washington, DC 20007, United States",
+            "name": "Rosenfield, Marc"
+        },
+        {
+            "orcid": "0000-0001-6379-9452",
+            "affiliation": "Biology Department, University of Miami, Miami, Florida, USA",
+            "name": "Zanne, Amy E."
+        }
+    ],
+    "license": "MIT",
+    "title": "WTF Climate dataset: 4 years of weather data from tropical Queensland, Australia",
+    "upload_type": "publication",
+    "publicatin_type": "article",
+    "communities": [
+        {"identifier": "wtf-project"}
+    ],
+    "keywords": ["carbon storage", "decay", "decomposition", "internal stem damage", "plant biomass", "precipitation", "termites"],
+    "description": "This repository contains the data and R code to reproduce all analyses of our paper entitled \"Shifts in internal stem damage along a tropical precipitation gradient and implications for forest biomass estimation\". The paper describes the variaton in internal stem damage of living trees across a precipitation gradient in tropical Australia."
+}
