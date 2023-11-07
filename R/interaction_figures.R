@@ -85,7 +85,7 @@ ggplot(d5_tm, aes(termite_damage, damage_m*100, color=wood_density)) +
 
 rain_wd+theme(legend.position = "none")+
   termite_damage_wd+theme(axis.title.y = element_blank())+
-  plot_annotation(tag_levels = 'A')& 
+  plot_annotation(tag_levels = 'a', tag_prefix = "(", tag_suffix = ")")& 
   theme(axis.title = element_text(size = 14),
         axis.text = element_text(size = 14), 
         legend.text = element_text(size = 15),

@@ -94,5 +94,7 @@ ggplot(d5, aes(x=damage, y =damage_m)) +
   xlab("Termite damage in DDW (%)")+
   theme_bw()-> termite
 #figure
-dbh+  wd+theme(axis.title.y = element_blank())+  pre+  termite+theme(axis.title.y = element_blank())+plot_annotation(tag_levels = 'A')
+dbh+  wd+theme(axis.title.y = element_blank())+  pre+  
+  termite+theme(axis.title.y = element_blank())+
+  plot_annotation(tag_levels = 'a', tag_prefix = "(", tag_suffix = ")")
 ggsave(filename = "output/damage_bivariate.jpeg")

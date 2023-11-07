@@ -84,9 +84,10 @@ biomass %>%
 sum_biomass$site <- fct_relevel(sum_biomass$site,"Sav1","Sav2","Scl1","Rf1")
 sum_biomass$damage_biomass <- sum_biomass$AGB_d_50m- sum_biomass$AGB_d_50f
 sum_biomass$damage_biomass_d <- sum_biomass$AGB_d_50m- sum_biomass$AGB_d_50d
-sum(sum_biomass$damage_biomass_d)
+sum(sum_biomass$damage_biomass)/1.25
+sum(sum_biomass$damage_biomass_d)/.125
 sum_biomass$damage_biomass_i <- sum_biomass$AGB_d_50m- sum_biomass$AGB_d_50i
-sum(sum_biomass$damage_biomass_i)
+sum(sum_biomass$damage_biomass_i)1.25
 sum_biomass %>%
   pivot_longer(
     AGB_d_50m:pct_dmg_50d,
@@ -152,11 +153,11 @@ biomass %>%
 
 sum_stem_mass$site <- fct_relevel(sum_stem_mass$site,"Sav1","Sav2","Scl1","Rf1")
 sum_stem_mass$damaged_biomass <- sum_stem_mass$SGB_d_50m- sum_stem_mass$SGB_d_50f
-sum(sum_stem_mass$damaged_biomass)
+sum(sum_stem_mass$damaged_biomass)/1.25
 sum_stem_mass$damaged_biomass_i <- sum_stem_mass$SGB_d_50m- sum_stem_mass$SGB_d_50i
-sum(sum_stem_mass$damaged_biomass_i)
+sum(sum_stem_mass$damaged_biomass_i)/1.25
 sum_stem_mass$damaged_biomass_d <- sum_stem_mass$SGB_d_50m- sum_stem_mass$SGB_d_50d
-sum(sum_stem_mass$damaged_biomass_d)
+sum(sum_stem_mass$damaged_biomass_d)/1.25
 sum_stem_mass%>%
   pivot_longer(
     SGB_d_50m:pct_dmg_50d,

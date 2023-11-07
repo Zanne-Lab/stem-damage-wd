@@ -8,7 +8,8 @@ read_csv("data/stem_damage.csv") %>%
   dplyr::select(Site, longitude, latitude ,prec_90m,species_matched) %>%
   dplyr::distinct(Site,latitude, longitude,prec_90m, species_matched) %>%
   dplyr::count(Site,latitude, longitude, prec_90m,name = "SpeciesNumber") %>%
-  dplyr::arrange(desc(prec_90m))->p
+  dplyr::arrange(desc(prec_90m)) %>%
+  dplyr::mutate(Site = paste0(Site," (n = " ,SpeciesNumber,")"))->p
 
 location <- c(109,-42.33,155.33,-10.1)
 myMap <- get_map(location=location,
@@ -17,18 +18,18 @@ myMap <- get_map(location=location,
 oz <- ggmap(myMap)+
   ylim(c(-39,-11))+
   xlim(c(114,153))+
-  geom_rect(aes(xmin = 144, xmax = 146, ymin = -18, ymax = -16), color = "#CC3311", fill = NA)+
+  geom_rect(aes(xmin = 143, xmax = 147, ymin = -19, ymax = -15), color = "white", fill = NA, linewidth =1.2)+
   labs(x="Longitude",y="Latitude")
-s <- "style=feature:administrative.locality|element:labels|visibility:off&style=feature:landscape|element:all|color:0xe5e4e2"
+s <- "style=feature:administrative.locality|element:labels|visibility:off&style=feature:landscape|element:all|color:0xdddddd"
 # Generated on https://mapstyle.withgoogle.com/
 
 fnq_location<-"Daintree National Park"   
 fnqmap <- get_googlemap(center = fnq_location, maptype="terrain",
                         crop=FALSE,zoom = 10, style = s)
 site <- ggmap(fnqmap)+
-  geom_point(aes(x= longitude, y = latitude, color = prec_90m), 
-             data = p, size =6)+
-  scale_colour_continuous_sequential(name = "Precipitation (mm)",palette = "Green-Yello")+
+  geom_point(aes(x= longitude, y = latitude, fill = prec_90m), 
+             data = p, size =6, colour = "black",shape = 21)+
+  scale_fill_continuous_sequential(name = "Precipitation (mm)",palette = "Green-Yello")+
   geom_spatial_label_repel(aes(label=Site,x =longitude, y = latitude),
                            box.padding = 1, data = p, size =7)+
   labs(x="Longitude",y="Latitude")+
